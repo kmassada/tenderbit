@@ -1,4 +1,8 @@
 {
   "name": "node6",
-  "dependencies": {}
+  "dependencies": {},
+  "globalDependencies": {
+    "dotenv": "registry:dt/dotenv#2.0.0+20160327131627",
+    "socket.io": "registry:dt/socket.io#1.4.4+20160909205835"
+  }
 }
