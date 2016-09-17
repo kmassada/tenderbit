@@ -6,7 +6,7 @@ nvm use 6
 
 ## Dependencies
 ```
-npm install gulp typings typescript --global
+npm install gulp typings typescript@beta --global
 npm install jscs jshint --global
 npm install --save express
 tsc  --init --module commonjs --target es5
