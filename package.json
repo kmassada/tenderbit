@@ -1,0 +1,14 @@
+{
+  "name": "node6",
+  "version": "1.0.0",
+  "description": "node 6 starter app",
+  "repository": {
+    "url": "https://github.com/kmassada/tenderbit.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kenneth Massada",
+  "license": "ISC"
+}
