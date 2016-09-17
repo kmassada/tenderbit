@@ -8,6 +8,7 @@ node_modules
 typings
 npm-debug.log
 dist/
+docs/index.html
 
 # env
 .env
