@@ -6,3 +6,5 @@ nvm use 6
 npm install gulp typings typescript --global
 npm install --save express
 tsc  --init --module commonjs --target es5
+typings init
+typings install dt~express dt~mime dt~serve-static dt~express-serve-static-core env~node --global
