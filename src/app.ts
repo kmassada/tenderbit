@@ -4,10 +4,12 @@ import * as socketIo from "socket.io";
 import * as path from "path";
 import * as http from "http";
 import * as mongoose from "mongoose";
+import * as bunyan from "bunyan";
 
 import { mainRouter } from "./routes/router";
 
 class Server {
+  public log: bunyan.Logger;
   public app: any;
   private server: any;
   private io: any;
@@ -17,6 +19,7 @@ class Server {
   private mongo: any;
   
   constructor() {
+    this.log = this.logger();
     this.app = express();
     this.config();
     this.routes();
@@ -66,10 +69,21 @@ class Server {
     // Get MongoDB handle
     this.mongo = mongoose.connect(mongoDBUrl, (err, res)=>{
       if (err) {
-      console.log('ERROR connecting to: ' + mongoDBUrl + '. ' + err);
-    } else {
-      console.log('Succeeded connected to: ' + mongoDBUrl);
-    }
+        this.log.info('ERROR connecting to: ' + mongoDBUrl + '. ' + err);
+      } else {
+        this.log.info('Succeeded connected to: ' + mongoDBUrl);
+      }
+    });
+  }
+  public logger(): bunyan.Logger {
+    return bunyan.createLogger({
+      name: 'MAIN',
+      streams: [
+        {
+          stream: process.stderr,
+          level: 'debug',
+        },
+      ],
     });
   }
 }

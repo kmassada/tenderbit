@@ -22,6 +22,7 @@
   "author": "Kenneth Massada",
   "license": "ISC",
   "dependencies": {
+    "bunyan": "^1.8.1",
     "concurrently": "^2.2.0",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",

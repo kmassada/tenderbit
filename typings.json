@@ -2,6 +2,7 @@
   "name": "node6",
   "dependencies": {},
   "globalDependencies": {
+    "bunyan": "registry:dt/bunyan#0.0.0+20160412155112",
     "dotenv": "registry:dt/dotenv#2.0.0+20160327131627",
     "mongoose": "registry:dt/mongoose#4.5.9+20160826204928",
     "socket.io": "registry:dt/socket.io#1.4.4+20160909205835"
