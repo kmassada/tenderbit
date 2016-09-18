@@ -22,10 +22,13 @@
   "author": "Kenneth Massada",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
     "concurrently": "^2.2.0",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "express-session": "^1.14.1",
     "mongoose": "^4.6.0",
     "raml2html": "^3.0.1",
     "socket.io": "^1.4.8",

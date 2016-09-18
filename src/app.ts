@@ -5,6 +5,9 @@ import * as path from "path";
 import * as http from "http";
 import * as mongoose from "mongoose";
 import * as bunyan from "bunyan";
+import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
+import * as session from "express-session";
 
 import { mainRouter } from "./routes/router";
 
@@ -42,6 +45,16 @@ class Server {
     // Static Routing for /
     let staticRouter: express.Router;
     staticRouter = express.Router();
+    // For parsing application/x-www-form-urlencoded
+    this.app.use(bodyParser.urlencoded({extended: true}));
+    // For parsing application/json
+    this.app.use(bodyParser.json());
+    this.app.use(session({
+      secret: 'library',
+      resave: true,
+      saveUninitialized: true,
+    }));
+    this.app.use(cookieParser());
     // Static Assets
     this.app.use('/assets', express.static(path.resolve(this.root, 'assets')));
     // Api Routing
@@ -55,10 +68,10 @@ class Server {
   private listen(): void {
     this.server.listen(this.port);
     this.server.on("error", error => {
-        console.log("ERROR", error);
+        this.log.info("ERROR", error);
     });
     this.server.on("listening", () => {
-        console.log(`==> Listening on port ${this.port}.
+        this.log.info(`==> Listening on port ${this.port}.
         Open up http://localhost:${this.port}/ in your browser.`);            
     });
   }
