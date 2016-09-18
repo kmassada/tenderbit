@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import * as socketIo from "socket.io";
 import * as path from "path";
 import * as http from "http";
+import * as mongoose from "mongoose";
 
 import { mainRouter } from "./routes/router";
 
@@ -13,6 +14,7 @@ class Server {
   private root: string;
   private apiPrefix: string;
   private port: number;
+  private mongo: any;
   
   constructor() {
     this.app = express();
@@ -21,10 +23,11 @@ class Server {
     this.server = http.createServer(this.app);
     this.sockets();
     this.listen();
+    this.databases();
   }
   private config(): void {
     dotenv.config();
-    this.port = process.env.PORT || 4500;
+    this.port = process.env.PORT || 3222;
     this.apiPrefix = process.env.APP_API_VERSION || '/api/v1';
     this.root = path.join(path.resolve(__dirname, '../'));
   }
@@ -54,6 +57,19 @@ class Server {
     this.server.on("listening", () => {
         console.log(`==> Listening on port ${this.port}.
         Open up http://localhost:${this.port}/ in your browser.`);            
+    });
+  }
+  private databases(): void {
+    // MongoDB URL
+    let mongoDBUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/tenderbit';
+
+    // Get MongoDB handle
+    this.mongo = mongoose.connect(mongoDBUrl, (err, res)=>{
+      if (err) {
+      console.log('ERROR connecting to: ' + mongoDBUrl + '. ' + err);
+    } else {
+      console.log('Succeeded connected to: ' + mongoDBUrl);
+    }
     });
   }
 }
