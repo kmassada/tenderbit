@@ -63,7 +63,24 @@ class Server {
     staticRouter.get('/', (req: express.Request, res: express.Response) => {
         res.sendFile(path.join(this.root, 'docs/index.html'));
     });
-    this.app.use('*', staticRouter);
+    this.app.use('/#\?', staticRouter);
+    // Error Handling
+      this.app.use((req: express.Request, res: express.Response, next: express.NextFunction)=>{
+      this.log.info("burrrrrr");
+      res.status(500).json({status: 'error', 
+        message: 'error loading page', 
+        success: false});
+    });
+    this.app.use((err, req: express.Request, res: express.Response, next: express.NextFunction)=>{
+      if (res.headersSent) {
+        return next(err);
+      }
+      this.log.info(err.stack);
+      res.status(500).json({
+        status: 'error', 
+        message: 'error occured in application\n'+err.stack, 
+        success: false});
+    });
   }
   private listen(): void {
     this.server.listen(this.port);
@@ -88,6 +105,13 @@ class Server {
       }
     });
   }
+  private reqSerializer(req):any {
+    return {
+        method: req.method,
+        url: req.url,
+        headers: req.headers
+    };
+  }
   public logger(): bunyan.Logger {
     return bunyan.createLogger({
       name: 'MAIN',
@@ -97,9 +121,14 @@ class Server {
           level: 'debug',
         },
       ],
+      serializers: {
+        req: this.reqSerializer
+      }
     });
   }
 }
 // Bootstrap the server
 let server = new Server();
-export = server.app;
+let app = server.app;
+let log = server.log;
+export {app, log };
